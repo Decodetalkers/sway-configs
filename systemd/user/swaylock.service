@@ -1,7 +1,7 @@
 [Unit]
 Description=swaylock - Kabudro's Wayland window battery manager
 Documentation=man:sway(5)
-BindsTo=graphical-session.target
+BindsTo=sway.service
 Wants=graphical-session-pre.target
 After=graphical-session-pre.target
 

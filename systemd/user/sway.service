@@ -8,6 +8,7 @@ After=graphical-session-pre.target
 [Service]
 Type=simple
 EnvironmentFile=-%h/.config/sway/env
+ExecStartPre=systemctl --user unset-environment WAYLAND_DISPLAY DISPLAY
 ExecStart=/usr/bin/sway --unsupported-gpu
 Restart=on-failure
 RestartSec=1
