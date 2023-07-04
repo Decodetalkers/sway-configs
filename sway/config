@@ -8,12 +8,24 @@ exec_always fcitx5 -d --replace
 
 exec mako
 exec nm-applet --indicator
+#exec blueman-applet
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 seat seat0 xcursor_theme "breeze_cursors"
+
 #exec_always gsettings set org.gnome.desktop.interface cursor-theme "Capitaine Cursors"
 xwayland enabled
 
-output eDP-1 scale 1
+# MIME
+output eDP-1 scale 1.2
+#output DP-3 scale 1
+output DP-2 scale 1.2
+
+# Another screen
+#output DP-2 scale 1
+#workspace 9 output DP-3
+set $lock 'swaylock -f -i ~/.config/sway/backgrounds/gangdamu.png'
+
+bindswitch --reload --locked lid:on exec $lock
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -25,13 +37,18 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term foot
+#set $term foot
+set $term wezterm
+#set $term kitty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
 #set $menu wofi --show=drun
-set $menu fuzzel -T foot
+#set $menu fuzzel -T foot --dpi-aware=no --line-height=45 --width=20 --font=:size=35
+set $menu utena
+
+#set $menu xfce4-appfinder
 
 ### Output configuration
 #
@@ -58,9 +75,12 @@ bindsym XF86MonBrightnessDown exec sudo light -U 10
 # Example configuration:
 #
 exec swayidle -w \
-         timeout 300 'swaylock -i ~/.config/sway/backgrounds/lingmeng.jpg -f -c 000000  --effect-blur 7x5 ' \
-         timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -i ~/.config/sway/backgrounds/lingmeng.jpg -f -c 000000  --effect-blur 7x5 '
+         timeout 300 'swaylock -f -i ~/.config/sway/backgrounds/gangdamu.png'\
+         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         before-sleep 'swaylock -f -i ~/.config/sway/backgrounds/gangdamu.png'
+# history
+bindsym $mod+Shift+p exec $lock
+
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -85,8 +105,14 @@ exec swayidle -w \
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
-
+    # bindsym $mod+Return exec $term nu
+    bindsym $mod+Return exec $term 
+    bindsym $mod+Shift+Return exec alacritty --class "__float"
+    for_window [floating] title_format "%title [floating]"
+    for_window [tiling] title_format "%title"
+		#for_window [class="[.]*"] floating enable
+		for_window [app_id="kitty"] floating enable
+		#for_window [app_id="xfce4-appfinder"] default_border none
     # Kill focused window
     bindsym $mod+Shift+q kill
 
@@ -104,7 +130,8 @@ exec swayidle -w \
 
     # Reload the configuration file
     bindsym $mod+Shift+c reload
-    bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
+    bindsym $mod+o exec haruhishot -S "$(slurp -d)" --stdout | wl-copy
+    #bindsym $mod2+p exec flameshot gui
     # bindsym $mod+o exec nm-connection-editor
 
     # Exit sway (logs you out of your Wayland session)
