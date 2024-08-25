@@ -5,8 +5,10 @@
 # Read `man 5 sway` for a complete reference.
 
 exec_always fcitx5 -d --replace
+exec /usr/lib/xdg-desktop-portal-lxqt
+exec /usr/lib/xdg-desktop-portal-kde
 
-exec mako
+exec lala-bar
 exec nm-applet --indicator
 #exec blueman-applet
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -23,7 +25,8 @@ output DP-2 scale 1.2
 # Another screen
 #output DP-2 scale 1
 #workspace 9 output DP-3
-set $lock 'swaylock -f -i ~/.config/sway/backgrounds/gangdamu.png'
+#set $lock 'swaylock -f -i ~/.config/sway/backgrounds/gangdamu.png'
+set $lock waycratelock
 
 bindswitch --reload --locked lid:on exec $lock
 ### Variables
@@ -38,7 +41,9 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 #set $term foot
-set $term wezterm
+# set $term kitty
+#set $term wezterm
+set $term konsole
 #set $term kitty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -61,8 +66,8 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-bindsym XF86MonBrightnessUp exec sudo light -A 10
-bindsym XF86MonBrightnessDown exec sudo light -U 10
+bindsym XF86MonBrightnessUp exec gdglight -A 10
+bindsym XF86MonBrightnessDown exec gdglight -D 10
 #
 # Example configuration:
 #
@@ -78,6 +83,11 @@ exec swayidle -w \
          timeout 300 'swaylock -f -i ~/.config/sway/backgrounds/gangdamu.png'\
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -i ~/.config/sway/backgrounds/gangdamu.png'
+
+#exec swayidle -w \
+#         timeout 300 'waycratelock'\
+#         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#         before-sleep 'waycratelock'
 # history
 bindsym $mod+Shift+p exec $lock
 
